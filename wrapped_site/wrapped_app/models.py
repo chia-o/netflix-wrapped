@@ -16,6 +16,9 @@ class Titles(models.Model):
         managed = False
         db_table = 'titles'
 
+    def __str__(self):
+        return self.title
+
 
 class ViewingActivity(models.Model):
     profile_name = models.CharField(max_length=50, blank=True, null=True)
@@ -31,3 +34,6 @@ class ViewingActivity(models.Model):
     class Meta:
         managed = False
         db_table = 'viewing_activity'
+
+    def __str__(self):
+        return self.title
