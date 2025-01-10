@@ -21,18 +21,18 @@ class Titles(models.Model):
 
 
 class ViewingActivity(models.Model):
-    profile_name = models.CharField(max_length=50, blank=True, null=True)
-    start_time = models.DateTimeField(blank=True, null=True)
-    duration = models.TimeField(blank=True, null=True)
-    title = models.CharField(max_length=255, blank=True, null=True)
-    video_type = models.CharField(max_length=255, blank=True, null=True)
-    device_type = models.CharField(max_length=255, blank=True, null=True)
-    latest_bookmark = models.CharField(max_length=255, blank=True, null=True)
-    title_id = models.ForeignKey(Titles, on_delete=models.CASCADE, db_column='title_id', blank=True, null=True)
+    profile_name = models.CharField(max_length=50)
+    start_time = models.DateTimeField()
+    duration = models.TimeField()
+    title = models.CharField(max_length=255)
+    video_type = models.CharField(max_length=255)
+    device_type = models.CharField(max_length=255)
+    latest_bookmark = models.CharField(max_length=255)
+    title_id = models.ForeignKey(Titles, on_delete=models.CASCADE, db_column='title_id')
     session_id = models.AutoField(primary_key=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'viewing_activity'
 
     def __str__(self):

@@ -1,6 +1,13 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Chia's Netflix Wrapped</title>
+    </head>
     <body>
-        <h1>Chia's Netflix Wrapped</h1>
-        <p>Wrapped content</p>
-        {% block content %}{% endblock %}
+        {% block content %}
+            <h2>Your most streamed title of all time:</h2>
+            <p>{{ most_streamed.title }} with {{ most_streamed.title_count }} streams.</p>
+        {% endblock %}
+    </body>
 </html>    
