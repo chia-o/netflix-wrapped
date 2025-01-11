@@ -8,6 +8,10 @@
         {% block content %}
             <h2>Your most streamed title of all time:</h2>
             <p>{{ most_streamed.title }} with {{ most_streamed.title_count }} streams.</p>
+            <h2>Your most streamed movie of all time:</h2>
+            <p>{{ most_streamed_movie.title }} with {{ most_streamed_movie.title_count }} streams.</p>
+            <h2>Your most streamed tv show of all time:</h2>
+            <p>{{ most_streamed_show.title }} with {{ most_streamed_show.title_count }} streams.</p>
         {% endblock %}
     </body>
 </html>    

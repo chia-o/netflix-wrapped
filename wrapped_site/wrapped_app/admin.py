@@ -16,7 +16,7 @@ class ViewingAdmin(admin.ModelAdmin):
         "video_type",
         "device_type",
         "latest_bookmark",
-        "title_id",
+        "title_id"
         "session_id",
     ]
 
