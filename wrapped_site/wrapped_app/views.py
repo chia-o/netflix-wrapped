@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import ViewingActivity
 from django.db.models import Count, Sum, When, Case, Value, CharField
+from django.db.models.functions import Substr
 
 """Queries that make up Netflix Wrapped"""
 def home(request):
@@ -33,6 +34,7 @@ def home(request):
     most_streamed_show = (ViewingActivity.objects
                           .filter(profile_name=profile_name)
                           .exclude(video_type="Movie")
+                          .annotate(show_name=Substr("title", 1,10))
                           .values("title")
                           .annotate(title_count=Count("title"))
                           .order_by('-title_count')
