@@ -8,8 +8,6 @@
 from django.db import models
 import datetime
 
-
-
 class ViewingActivity(models.Model):
     profile_name = models.CharField(max_length=50, blank=True, null=True)
     start_time = models.DateTimeField(default=datetime.datetime.now)
@@ -18,7 +16,6 @@ class ViewingActivity(models.Model):
     video_type = models.CharField(max_length=255, blank=True, null=True)
     device_type = models.CharField(max_length=255, null=True, default=None)
     latest_bookmark = models.CharField(max_length=255, blank=True, null=True)
-    title_id = models.ForeignKey(Titles, on_delete=models.CASCADE, db_column='title_id', null=True, default=None)
     session_id = models.AutoField(primary_key=True)
 
     class Meta:
