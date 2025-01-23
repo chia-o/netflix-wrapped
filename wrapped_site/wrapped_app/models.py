@@ -8,7 +8,21 @@
 from django.db import models
 import datetime
 
+class Titles(models.Model):
+    title_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255, blank=True, null=True)
+    video_type = models.CharField(max_length=255, choices=[('Movie', 'Movie'), ('TV Show', 'TV Show')], blank=True, null=True, default=None)
+
+    class Meta:
+        managed = True
+        db_table = 'titles'
+
+    def __str__(self):
+        return self.title
+
+
 class ViewingActivity(models.Model):
+    title_id = models.ForeignKey(Titles, on_delete=models.CASCADE, db_column='title_id', null=True, default=None) 
     profile_name = models.CharField(max_length=50, blank=True, null=True)
     start_time = models.DateTimeField(default=datetime.datetime.now)
     duration = models.TimeField(default=datetime.time(0, 0))

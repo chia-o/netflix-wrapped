@@ -12,6 +12,12 @@
             <p>{{ most_streamed_movie.title }} with {{ most_streamed_movie.title_count }} streams.</p>
             <h2>Your most streamed tv show of all time:</h2>
             <p>{{ most_streamed_show.title }} with {{ most_streamed_show.title_count }} streams.</p>
+            <h2>Your top five titles streamed all time:</h2>
+            <ul>
+                {% for item in top_five %}
+                    <li>{{ item.title }} with {{ item.title_count }} streams.</li>
+                {% endfor %}
+            </ul>
         {% endblock %}
     </body>
 </html>    

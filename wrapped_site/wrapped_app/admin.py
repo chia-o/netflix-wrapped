@@ -1,16 +1,17 @@
 from django.contrib import admin
-from .models import ViewingActivity
+from .models import ViewingActivity, Titles
 
 # Register your models here.
-"""
 class TitlesAdmin(admin.ModelAdmin):
     list_display = [
         "title_id",
         "title",
+        "video_type",
     ]
-"""
+
 class ViewingAdmin(admin.ModelAdmin):
     list_display = [
+        "title_id",
         "profile_name",
         "start_time",
         "duration",
@@ -21,5 +22,5 @@ class ViewingAdmin(admin.ModelAdmin):
         "session_id",
     ]
 
-#admin.site.register(Titles, TitlesAdmin)
+admin.site.register(Titles, TitlesAdmin)
 admin.site.register(ViewingActivity, ViewingAdmin)
