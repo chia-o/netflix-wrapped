@@ -8,10 +8,23 @@
 from django.db import models
 import datetime
 
+
+class Genres(models.Model):
+    genre = models.CharField(max_length=255, blank=True, null=True)
+    genre_id = models.IntegerField(primary_key=True)
+
+    class Meta:
+        managed = True
+        db_table = 'genres'
+
+    def __str__(self):
+        return self.name
+
 class Titles(models.Model):
     title_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, blank=True, null=True)
     video_type = models.CharField(max_length=255, choices=[('Movie', 'Movie'), ('TV Show', 'TV Show')], blank=True, null=True, default=None)
+    genre = models.ManyToManyField('Genres', related_name='titles')
 
     class Meta:
         managed = True
