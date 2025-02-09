@@ -4,7 +4,7 @@ A project that creates a Spotify Wrapped dupe for my Netflix viewing history fro
 I wrote the app in Python and created my database from a CSV file in Postgres. I used the OMDB API to fecth genres for the titles and read a JSON file to create a Genres table in the database. Finally, I wanted to visualize my queries, so I created a Django web app and integrated it with a React frontend. 
 
 
-Questions I wanted to ask:
+Data I wanted to visualize:
 - What was my most streamed title of all time?
 - Most streamed movie?
 - Most streamed show?
