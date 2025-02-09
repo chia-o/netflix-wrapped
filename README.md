@@ -1,7 +1,7 @@
 # netflix-wrapped
 A project that creates a Spotify Wrapped dupe for my Netflix viewing history from 2012 - 2025. 
 
-I wrote the app in Python and created my database from a CSV file in Postgres. I used the OMDB API to fecth genres for the titles and read a JSON file to create a Genres table in the database. Finally, I wanted to visualize my queries, so I created a Django web app and integrated it with a React frontend. 
+I wrote the app in Python and used a Postgres backend to store the viewing data. I used the OMDB API to fecth genres for the titles and read a JSON file to create a Genres table in the database. Finally, I wanted to visualize my queries, so I created a Django web app and integrated it with a React frontend. 
 
 
 Data I wanted to visualize:
