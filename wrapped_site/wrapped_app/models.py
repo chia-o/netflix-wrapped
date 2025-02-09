@@ -24,7 +24,7 @@ class Titles(models.Model):
     title_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, blank=True, null=True)
     video_type = models.CharField(max_length=255, choices=[('Movie', 'Movie'), ('TV Show', 'TV Show')], blank=True, null=True, default=None)
-    genre = models.ManyToManyField('Genres', related_name='titles')
+    genre = models.ManyToManyField('Genres', related_name='titles', default=None) 
 
     class Meta:
         managed = True
