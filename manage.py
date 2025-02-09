@@ -6,7 +6,7 @@ import sys
 
 def main():
     """Sets default Django settings module to settings.py"""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wrapped_site.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.wrapped_site.settings')
     """Import the function that handles executing management commands like makemigrate"""
     try:
         from django.core.management import execute_from_command_line
