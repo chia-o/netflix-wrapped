@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Chia's Netflix Wrapped</title>
+    </head>
+    <body>
+        {% block content %}
+            <h2>Your most streamed title of all time:</h2>
+            <p>{{ most_streamed.title }} with {{ most_streamed.title_count }} streams.</p>
+            <h2>Your most streamed movie of all time:</h2>
+            <p>{{ most_streamed_movie.title }} with {{ most_streamed_movie.title_count }} streams.</p>
+            <h2>Your most streamed tv show of all time:</h2>
+            <p>{{ most_streamed_show.title }} with {{ most_streamed_show.title_count }} streams.</p>
+            <h2>Your top five titles streamed all time:</h2>
+            <ul>
+                {% for item in top_five %}
+                    <li>{{ item.title }} with {{ item.title_count }} streams.</li>
+                {% endfor %}
+            </ul>
+            <h2>Your most watched genre:</h2>
+            <p>{{ most_watched_genre.0 }}</p>
+            <h2>Your top 5 most watched genres:</h2>
+            <ul>
+                {% for genre, count in top_five_genres %}
+                    <li>{{ genre }}</li>
+                {% endfor %}
+        {% endblock %}
+    </body>
+</html>    
