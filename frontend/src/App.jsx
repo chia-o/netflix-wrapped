@@ -1,11 +1,12 @@
 import Header from "./components/Header.jsx";
+import Hero from "./components/SectionHero.jsx";
 import './index.css';
 
 function App() {
     return (
-      <div>
+      <div className="body-wrapper">
         <Header />
-        {/* Add other components or sections here */}
+        <Hero />
       </div>
     );
   }
