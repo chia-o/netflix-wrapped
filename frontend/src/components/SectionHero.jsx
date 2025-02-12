@@ -22,7 +22,6 @@ const Hero = () => {
   return (
     <div className="section-hero">
         <div className="container">
-            {/* Test Images */}
             <img src="/images/Paper 3 (open)(1).png" alt="Main Image" className="image-absolute"/>
             <img src="/images/Untitled design(2).png" alt="Accent Image" className="image-absolute-accent"/>
         </div>
