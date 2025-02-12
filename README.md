@@ -1,6 +1,6 @@
 # netflix-wrapped
 
-<img width="1506" alt="Screenshot 2025-02-12 at 3 46 02 AM" src="https://github.com/user-attachments/assets/407f19e9-10fd-45a4-a1c4-1b32a76b6d84" />
+<img width="1506" alt="Screenshot 2025-02-12 at 4 12 20 AM" src="https://github.com/user-attachments/assets/b02144f4-0bea-4b0e-9fd4-03f802606c68" />
 
 
 <H1>A project that creates a Spotify Wrapped dupe for my Netflix viewing history from 2012 - 2025 🍿.</H1> 
