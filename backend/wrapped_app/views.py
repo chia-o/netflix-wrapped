@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from .models import ViewingActivity, Titles, Genres
-from .utils import genre_count
 from django.db.models import Count, Sum, When, Case, Value, CharField
 from django.db.models.functions import Substr
 
@@ -100,11 +99,8 @@ def home(request):
     # Query that gives me the time of day category with the most views
     most_time_of_day = max(time_of_day, key=lambda x: x["hour_count"])
 
-    # Most watched genre
-    most_watched_genre = genre_count(profile_name)
+    # Query that gets the most watched genre
 
-    # Top 5 genres
-    top_five_genres = genre_count(profile_name)
     
 
     context = {

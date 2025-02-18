@@ -22,7 +22,7 @@ class Genres(models.Model):
 
 class Titles(models.Model):
     title_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=255, blank=True, null=True)
+    title = models.CharField(max_length=255, blank=True, null=True, unique=True)
     video_type = models.CharField(max_length=255, choices=[('Movie', 'Movie'), ('TV Show', 'TV Show')], blank=True, null=True, default=None)
     genre = models.ManyToManyField('Genres', related_name='titles', default=None) 
 
@@ -48,6 +48,22 @@ class ViewingActivity(models.Model):
     class Meta:
         managed = True
         db_table = 'viewing_activity'
+
+    def __str__(self):
+        return self.title
+    
+class ViewingData(models.Model):
+    start_time = models.DateTimeField(default=datetime.datetime.now)
+    duration = models.TimeField(default=datetime.time(0, 0))
+    title = models.CharField(max_length=255, blank=True, null=True)
+    device_type = models.CharField(max_length=255, blank=True, null=True)
+    latest_bookmark = models.CharField(max_length=255, blank=True, null=True)
+    session_id = models.AutoField(primary_key=True)
+    title_id = models.ForeignKey(Titles, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        managed = True
+        db_table = 'viewing_data'
 
     def __str__(self):
         return self.title

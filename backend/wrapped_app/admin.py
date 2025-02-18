@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ViewingActivity, Titles, Genres
+from .models import ViewingActivity, Titles, Genres, ViewingData
 
 # Register your models here.
 class TitlesAdmin(admin.ModelAdmin):
@@ -28,6 +28,17 @@ class GenreAdmin(admin.ModelAdmin):
         "genre_id",
     ]
 
+class ViewingDataAdmin(admin.ModelAdmin):
+    list_display = [
+        "start_time",
+        "duration",
+        "title",
+        "device_type",
+        "latest_bookmark",
+        "session_id",
+    ]
+
 admin.site.register(Titles, TitlesAdmin)
 admin.site.register(ViewingActivity, ViewingAdmin)
 admin.site.register(Genres, GenreAdmin)
+admin.site.register(ViewingData, ViewingDataAdmin)
