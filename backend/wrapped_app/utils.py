@@ -1,36 +1,38 @@
 from collections import Counter
-from backend.wrapped_app.models import ViewingActivity, Titles, Genres
+import os
+import sys
+import django
+import re
 
+sys.path.append('/Users/chiamakaofonagoro/projects/netflix_wrapped')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.wrapped_site.settings')
 
+django.setup()
 
-def genre_count(profile_name):
+from backend.wrapped_app.models import ViewingData, Titles
 
+def clean_title(title):
+    parts = re.split(r': Season \d+', title)
+    return parts[0].strip() if parts else title.strip()
+
+def genre_count():
+    # create dictionary for title, genre(s) from Titles table
     title_genre_map = {}
-
-    # Gets all titles with their genres
     titles = Titles.objects.all()
+    for item in titles:
+        genre_list = [genre.genre for genre in item.genre.all()]
+        title_genre_map[item.title] = genre_list
 
-    for title in titles:
-        genres = title.genre.all()
-        genre_list = [genre.name for genre in genres]
-        title_genre_map[title.title] = genre_list
-
+    # retrieve title from Viewing_Data, make sure its in dictionary, and then store associated genres found in dict in a list 'results'
     results = []
-    session_data = (ViewingActivity.objects
-            .filter(profile_name='Chiamaka')
-            .values('session_id', 'title')
-            )
-    # 
-    for data in session_data:
-        # gets the full string and then splits at the semi-colon, returning only the first part
-        title_name = data['title'].split(":")[0] # get the tv show name
-
-        print(f"Title before colon: '{title_name}'")
-
-        # add the genre(s) for each title to results 
+    viewing_data = ViewingData.objects.values('title') # specialized dictionary
+    for data in viewing_data:
+        title_name = clean_title(data['title'])
         if title_name in title_genre_map:
-            genres = title_genre_map[title_name]
-            results.extend(genres) 
+            genre_list_data = title_genre_map[title_name] 
+            results.extend(genre_list_data)
+        else:
+            print(f"Title '{title_name}' not found in Title-Genre Map")
 
     
     result_counter = Counter(results)
@@ -41,8 +43,6 @@ def genre_count(profile_name):
 
     
 if __name__ == "__main__":
-    titles_genre()
-    profile_name = 'Chiamaka'
-    most_watched, top_five = genre_count(profile_name)
+    most_watched, top_five = genre_count()
     print(f"Most Watched Genre: {most_watched}")
     print(f"Top 5 Genres: {top_five}")

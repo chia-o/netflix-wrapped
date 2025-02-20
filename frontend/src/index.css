@@ -1,39 +1,3 @@
-
-@font-face {
-  font-family: 'GeistMono-Regular.woff2';
-  src: url('/fonts/GeistMono-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'GeistMono-Medium.woff2';
-  src: url('/fonts/GeistMono-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'GeistMono-Light.woff2';
-  src: url('/fonts/GeistMono-Light.woff2') format('woff2');
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'JetBrainsMono-Regular.woff2';
-  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'JetBrainsMono-Medium.woff2';
-  src: url('/fonts/JetBrainsMono-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-}
-
 @font-face {
   font-family: 'UT Boldonse Demo';
   src: url('/fonts/UT Boldonse Demo.woff2') format('woff2');
@@ -43,8 +7,43 @@
 }
 
 @font-face {
-  font-family: 'RobotoMono-Regular';
-  src: url('/fonts/RobotoMono-Regular.woff') format('woff');
+  font-family: 'FormativeTrial-Regular';
+  src: url('/fonts/FormativeTrial-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FormativeTrial-Medium';
+  src: url('/fonts/FormativeTrial-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BricolageGrotesque-Regular';
+  src: url('/fonts/BricolageGrotesque-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BricolageGrotesque-Medium';
+  src: url('/fonts/BricolageGrotesque-Medium.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geist-Regular';
+  src: url('/fonts/Geist-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PPMori-Regular';
+  src: url('/fonts/PPMori-Regular.woff') format('woff2');
   font-weight: 400;
   font-style: normal;
 }
@@ -247,16 +246,15 @@ navbar-float {
   margin-left: 30px;
   color: #000000;
   text-decoration: none;
-  font-size: 15px;
-  font-family: 'JetBrainsMono-Regular.woff2', sans-serif;
-  font-weight: 400;
+  font-size: 16px;
+  font-family: 'FormativeTrial-Medium', sans-serif;
   /*letter-spacing: -0.3px;*/
   transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
   color: #E50914;
-  font-family: 'JetBrainsMono-Medium.woff2', sans-serif;
+  
 
 }
 
@@ -381,7 +379,7 @@ navbar-float {
 .stats-text {
   font-size: 30px;
   color: #000000;
-  font-family: 'JetBrainsMono-Regular.woff2', sans-serif;
+  font-family: 'FormativeTrial-Medium', sans-serif;
   color: #E50914;
 }
 
