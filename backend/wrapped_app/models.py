@@ -59,11 +59,20 @@ class ViewingData(models.Model):
     device_type = models.CharField(max_length=255, blank=True, null=True)
     latest_bookmark = models.CharField(max_length=255, blank=True, null=True)
     session_id = models.AutoField(primary_key=True)
-    title_id = models.ForeignKey(Titles, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         managed = True
         db_table = 'viewing_data'
+
+    def __str__(self):
+        return self.title
+    
+class TitleData(models.Model):
+    title = models.CharField(max_length=255)
+
+    class Meta:
+        managed = True
+        db_table = 'title_data'
 
     def __str__(self):
         return self.title
