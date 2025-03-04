@@ -13,7 +13,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS("{deleted} trailers have been removed."))
 
         """
-        # Refactor title_id to define a distinct movie or repeating tv show (DONT RERUN!!!!!!!!!!!!!!!)
+        # Refactor title_id to define a distinct movie or repeating tv show 
         for title in ViewingActivity.objects.all():
             # will return the part before : for shows, or full name for movies
             name = title.title.split(":")[0] if ":" in title.title else title.title

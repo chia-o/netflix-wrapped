@@ -69,6 +69,7 @@ class ViewingData(models.Model):
     
 class TitleData(models.Model):
     title = models.CharField(max_length=255)
+    genre = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = True
