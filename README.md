@@ -1,6 +1,7 @@
 # netflix-wrapped
 
-![nw-thumbnail](https://github.com/user-attachments/assets/7fe55f3e-25da-435c-b4da-3730e7119ef9)
+
+<img width="1439" alt="Screenshot 2025-03-10 at 4 44 06 PM" src="https://github.com/user-attachments/assets/341fe584-ac13-42ae-93c4-6a4b8b17e809" />
 
 
 
