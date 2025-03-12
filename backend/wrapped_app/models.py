@@ -52,6 +52,19 @@ class ViewingActivity(models.Model):
     def __str__(self):
         return self.title
     
+class TitleData(models.Model):
+    title_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255)
+    genre = models.CharField(max_length=255, blank=True, null=True)
+    category = models.CharField(max_length=255, default="Uncategorized")
+
+    class Meta:
+        managed = True
+        db_table = 'title_data'
+
+    def __str__(self):
+        return self.title
+
 class ViewingData(models.Model):
     start_time = models.DateTimeField(default=datetime.datetime.now)
     duration = models.TimeField(default=datetime.time(0, 0))
@@ -59,21 +72,11 @@ class ViewingData(models.Model):
     device_type = models.CharField(max_length=255, blank=True, null=True)
     latest_bookmark = models.CharField(max_length=255, blank=True, null=True)
     session_id = models.AutoField(primary_key=True)
+    title_id = models.ForeignKey(TitleData, on_delete=models.CASCADE, db_column='title_id', null=True, blank=True)
 
     class Meta:
         managed = True
         db_table = 'viewing_data'
-
-    def __str__(self):
-        return self.title
-    
-class TitleData(models.Model):
-    title = models.CharField(max_length=255)
-    genre = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'title_data'
 
     def __str__(self):
         return self.title

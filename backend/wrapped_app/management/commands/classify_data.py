@@ -1,8 +1,9 @@
 """ This script is to remove trailers and categorize tv shows and movies, which I didn't do before connecting to the database. """
 """BaseCommand is the base class for making my own management commands. """
 from django.core.management.base import BaseCommand
-from backend.wrapped_app.models import ViewingActivity, Titles, ViewingData
+from backend.wrapped_app.models import ViewingActivity, Titles, ViewingData, TitleData
 from django.db.models import Q
+import re
 
 class Command(BaseCommand):
     help = "Classifies whether each title is a movie or tv show"
@@ -26,16 +27,17 @@ class Command(BaseCommand):
             title.save()
         
         self.stdout.write(self.style.SUCCESS("Title IDs have been assigned!"))
+        """
 
         #Classify titles into tv shows and movies
-        for title in ViewingActivity.objects.all():
-            if "Season" in title.title or "Episode" in title.title:
-                title.video_type = "TV Show"
+        for title in TitleData.objects.all():
+            if re.search(r': (Season \d+|Limited Series)', title.title, re.IGNORECASE):
+                title.category = "TV Show"
             else:
-                title.video_type = "Movie"
+                title.category = "Movie"
             title.save()
         self.stdout.write(self.style.SUCCESS("Titles have been classified!"))
-        """
+        
         """Do NOT RUN!!!!!!!!!
         # Classify device types
         for device_type in ViewingData.objects.all():
@@ -57,14 +59,18 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS("Device types have been classified!"))
         """
 
+        
         # Update ViewingData with title_id from Titles
+        """
         for data in ViewingData.objects.all():
             name = data.title.split(":")[0] if ":" in data.title else data.title
             try:
-                title_obj = Titles.objects.get(title=name)
+                title_obj = TitleData.objects.get(title=name)
                 data.title_id = title_obj
                 data.save()
-            except Titles.DoesNotExist:
+            except TitleData.DoesNotExist:
                 self.stdout.write(self.style.WARNING(f"Title '{name}' not found in Titles table."))
 
         self.stdout.write(self.style.SUCCESS("ViewingData has been updated with title IDs!"))
+        """
+        
