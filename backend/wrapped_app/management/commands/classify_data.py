@@ -29,6 +29,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS("Title IDs have been assigned!"))
         """
 
+
         #Classify titles into tv shows and movies
         for title in TitleData.objects.all():
             if re.search(r': (Season \d+|Limited Series)', title.title, re.IGNORECASE):
