@@ -1,34 +1,45 @@
-from django.shortcuts import render
 from .models import ViewingData
 from django.db.models import Count, Sum, When, Case, Value, CharField
 from django.db.models.functions import Substr
 from django.db import connection
+from django.http import JsonResponse
 
 """Queries that make up Netflix Wrapped"""
-def home(request):
-    # Query to get most streamed TITLE of all time
-    most_streamed = (ViewingData.objects
+
+
+# Query to get most streamed TITLE of all time
+def most_streamed(request):
+    data = (ViewingData.objects
                      .values("title")
                      .annotate(title_count=Count("title"))
                      .order_by('-title_count')
                      .first()
                      )
-    # Query that gets the top 5 most streamed titles
-    top_five = (ViewingData.objects
+    return JsonResponse(data)
+
+# Query that gets the top 5 most streamed titles
+def top_five(request):
+    data = (ViewingData.objects
                      .values("title")
                      .annotate(title_count=Count("title"))
                      .order_by('-title_count')[:5]
                      )
-    # Query that gets the most streamed movie
-    most_streamed_movie = (ViewingData.objects
+    return JsonResponse(data)
+
+# Query that gets the most streamed movie
+def most_streamed_movie(request):
+    data = (ViewingData.objects
                             .exclude(video_type="TV Show")
                             .values("title")
                             .annotate(title_count=Count("title"))
                             .order_by('-title_count')
                             .first()
                             )
-    # Query that gets the most streamed TV show
-    most_streamed_show = (ViewingData.objects
+    return JsonResponse(data) 
+
+# Query that gets the most streamed TV show
+def most_streamed_show(request):
+    data = (ViewingData.objects
                           .exclude(video_type="Movie")
                           .annotate(show_name=Substr("title", 1,10))
                           .values("title")
@@ -36,42 +47,60 @@ def home(request):
                           .order_by('-title_count')
                           .first()
                           )
-    # Query that gets minutes spent streaming all-time
-    all_time_minutes = (ViewingData.objects
+    return JsonResponse(data) 
+
+# Query that gets minutes spent streaming all-time
+def all_time_minutes(request):
+    data = (ViewingData.objects
                         .aggregate(total_duration=Sum("duration"))
                         )
-    # Query that gets minutes per year
-    minutes_per_year = (ViewingData.objects
+    return JsonResponse(data)   
+
+# Query that gets minutes per year
+def minutes_per_year(request):
+    data = (ViewingData.objects
                         .exclude(start_time__year="2025")
                         .values("start_time__year")
                         .annotate(minutes_sum=Sum("duration"))
                         )
-    # Query that gets the year with most streaming minutes
-    most_year = max(minutes_per_year, key=lambda x: x["minutes_sum"])
+    return JsonResponse(data)  
 
-    # Query to gets day all time with most streaming minutes
-    day_all_time = (ViewingData.objects
+# Query that gets the year with most streaming minutes
+def most_year(request):
+    data = max(minutes_per_year, key=lambda x: x["minutes_sum"])
+    return JsonResponse(data)
+
+# Query to gets day all time with most streaming minutes
+def day_all_time(request):
+    data = (ViewingData.objects
                     .values("start_time__date", "title")
                     .annotate(minutes_sum=Sum("duration"))
                     .order_by("-minutes_sum")
                     .first()
                     )
-    # Query that tells me which device I watch the most on
+    return JsonResponse(data)   
+
+# Query that tells me which device I watch the most on
+def most_streamed_device(request):
     most_streamed_device = (ViewingData.objects
                      .values("device_type")
                      .annotate(device_count=Count("device_type"))
                      .order_by('-device_count')
                      .first()
-                     )  
-    #Query that tells me whether I watch more movies or TV shows
-    movie_vs_show = (ViewingData.objects
+                     )
+    return JsonResponse(data)    
+
+def movie_vs_show(request):
+    data = (ViewingData.objects
                      .values("video_type")
                      .annotate(type_count=Count("video_type"))
                      .order_by('-type_count')
                      .first()
                      )
-    # Query that tells me usual time of day I most watch Netflix
-    time_of_day = (ViewingData.objects
+    return JsonResponse(data)   
+
+def time_of_day(request):
+    data = (ViewingData.objects
                    .annotate(
                        time_of_day=Case(
                                     When(start_time__hour__lt=12, then=Value("Morning")), 
@@ -85,68 +114,67 @@ def home(request):
                    .annotate(hour_count=Count("time_of_day"))
                    .order_by('-hour_count')
                    )
-    # Query that gives me the time of day category with the most views
-    most_time_of_day = max(time_of_day, key=lambda x: x["hour_count"])
+    return JsonResponse(data)
 
-    # Query that gets the most watched genre
-    top_genre = """
-        SELECT 
-            TRIM(genre) AS genre,
-        FROM (
-            SELECT 
-                vd.session_id,
-                regexp_split_to_table(td.genre, ',') AS genre
-            FROM viewing_data vd
-            JOIN title_data td ON vd.title_id = td.title_id
-            WHERE td.genre IS NOT NULL
-        ) AS genre_data
-        GROUP BY TRIM(genre)
-        ORDER BY view_count DESC
-        LIMIT 1;
-    """
+# Query that gives me the time of day category with the most views
+def most_time_of_day(request):
+    data = max(time_of_day, key=lambda x: x["hour_count"])
+    return JsonResponse(data) 
 
-    # Query that gets the most watched genre
-    top_five_genres = """
-        SELECT 
-            TRIM(genre) AS genre,
-        FROM (
-            SELECT 
-                vd.session_id,
-                regexp_split_to_table(td.genre, ',') AS genre
-            FROM viewing_data vd
-            JOIN title_data td ON vd.title_id = td.title_id
-            WHERE td.genre IS NOT NULL
-        ) AS genre_data
-        GROUP BY TRIM(genre)
-        ORDER BY view_count DESC
-        LIMIT 5;
-    """
-
+# Query that gives my top genre
+def top_genre(request):
     with connection.cursor() as cursor:
-        cursor.execute(top_genre)
-        top_genre = cursor.fetchone()
+        cursor.execute("""
+            SELECT 
+                TRIM(genre) AS genre
+            FROM (
+                SELECT 
+                    vd.session_id,
+                    regexp_split_to_table(td.genre, ',') AS genre
+                FROM viewing_data vd
+                JOIN title_data td ON vd.title_id = td.title_id
+                WHERE td.genre IS NOT NULL
+            ) AS genre_data
+            GROUP BY TRIM(genre)
+            ORDER BY COUNT(*) DESC
+            LIMIT 1;
+        """)
+        row = cursor.fetchone()
+        data = {"genre": row[0]} if row else {"error": "No genre data found"}
+    return JsonResponse(data, safe=False)
 
-        cursor.execute(top_five_genres)
-        five_genres = cursor.fetchall()
+# Query that gets the most watched genre
+def top_five_genres(request):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT 
+                TRIM(genre) AS genre
+            FROM (
+                SELECT 
+                    vd.session_id,
+                    regexp_split_to_table(td.genre, ',') AS genre
+                FROM viewing_data vd
+                JOIN title_data td ON vd.title_id = td.title_id
+                WHERE td.genre IS NOT NULL
+            ) AS genre_data
+            GROUP BY TRIM(genre)
+            ORDER BY COUNT(*) DESC
+            LIMIT 5;
+        """)
+        rows = cursor.fetchall()
+        if rows:
+            data = [row[0] for row in rows]
+        else:
+            data = {"error": "No genre data found"}
+    return JsonResponse(data, safe=False)
 
-    
-
-    context = {
-        "most_streamed": most_streamed,
-        "top_five": top_five,
-        "most_streamed_movie": most_streamed_movie,
-        "most_streamed_show": most_streamed_show,
-        "all_time_minutes": all_time_minutes,
-        "minutes_per_year": minutes_per_year,
-        "most_year": most_year,
-        "day_all_time": day_all_time,
-        "most_streamed_device": most_streamed_device,
-        "movie_vs_show": movie_vs_show,
-        "time_of_day": time_of_day,
-        "most_time_of_day": most_time_of_day,
-        "top_genre": top_genre,
-        "top_five_genres": top_five_genres
-
-    }
-
-    return render(request, "wrapped.html", context)
+def home(request):
+    return JsonResponse({
+        "message": "Welcome to the Netflix Stats API!",
+        "endpoints": [
+            "/data/top-genre/",
+            "/data/top-five-genre/",
+            "/data/most-streamed/",
+            # Add other API endpoints here
+        ]
+    })
